@@ -250,7 +250,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channel/{{FLOWS_CHANNEL_UUID}}",
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channels/{{FLOWS_CHANNEL_UUID}}",
 											"host": [
 												"{{FLOWS_BASE_URL}}"
 											],
@@ -258,7 +258,7 @@
 												"api",
 												"v2",
 												"internals",
-												"channel",
+												"channels",
 												"{{FLOWS_CHANNEL_UUID}}"
 											]
 										}
