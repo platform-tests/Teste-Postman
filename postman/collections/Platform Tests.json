@@ -89,7 +89,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channels/",
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channel/",
 											"host": [
 												"{{FLOWS_BASE_URL}}"
 											],
@@ -97,7 +97,7 @@
 												"api",
 												"v2",
 												"internals",
-												"channels",
+												"channel",
 												""
 											]
 										}
