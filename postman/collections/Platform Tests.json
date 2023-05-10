@@ -1,0 +1,1004 @@
+{
+	"info": {
+		"_postman_id": "b4a7b3e5-7f21-452e-82ad-e3f9d1a44e6d",
+		"name": "Platform Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "13878106-b4a7b3e5-7f21-452e-82ad-e3f9d1a44e6d"
+	},
+	"item": [
+		{
+			"name": "Flows",
+			"item": [
+				{
+					"name": "Internals",
+					"item": [
+						{
+							"name": "Channels",
+							"item": [
+								{
+									"name": "Create",
+									"item": [],
+									"id": "4ecd8e63-af28-4e8e-95a6-56e628327317"
+								},
+								{
+									"name": "Create",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "89601874-aa8f-429d-b07b-094a6718cadb",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"pm.environment.set(\"FLOWS_CHANNEL_UUID\", responseJSON.uuid)",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "98b1aa76-1ff8-4c29-b773-c3f32bb5eea4",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user\": \"sandro.meireles@weni.ai\",\n    \"org\": \"{{FLOW_ORGANIZATION_UUID}}\",\n    \"channeltype_code\": \"WWC\",\n    \"data\": {\n        \"name\": \"Weni Platform Tests WWC\",\n        \"base_url\": \"https://google.com\"\n    }\n}\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channel/",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"channel",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c58f4b13-ce0b-4340-851f-7cd085733c57",
+												"exec": [
+													"let schema = {",
+													"  \"type\": \"array\",",
+													"  \"items\": {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"        \"is_active\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"      \"is_active\": { \"type\": \"boolean\" }",
+													"    }",
+													"  }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body is valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "14131e7a-e12e-4742-8fe4-ecc81dc30131",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channel/?org={{FLOW_ORGANIZATION_UUID}}",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"channel",
+												""
+											],
+											"query": [
+												{
+													"key": "org",
+													"value": "{{FLOW_ORGANIZATION_UUID}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Retrieve",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e8ec8233-e689-40e1-bfe5-e7c2323ec1ad",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"        \"is_active\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"      \"is_active\": { \"type\": \"boolean\" }",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body is valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "5b750d6f-d9c8-46f7-8eb7-eabfc4714ea2",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channel/{{FLOWS_CHANNEL_UUID}}",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"channel",
+												"{{FLOWS_CHANNEL_UUID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Destroy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "aa766151-c0f8-4095-96fb-4c6be004c35e",
+												"exec": [
+													"let responseJSON = pm.response.json();",
+													"",
+													"pm.test(\"Response must be valid\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "c85a9391-dd28-4397-9e64-c0527bc177b3",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/channel/{{FLOWS_CHANNEL_UUID}}",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"channel",
+												"{{FLOWS_CHANNEL_UUID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "7ab583c0-7688-4e22-889a-940b49fcd6da"
+						},
+						{
+							"name": "Project",
+							"item": [
+								{
+									"name": "Create",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9075a0a4-176b-4db3-8527-f125c062cf33",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"pm.environment.set(\"FLOWS_CHANNEL_UUID\", responseJSON.uuid)",
+													"",
+													"pm.test(\"Assert Response UUID is equals to Request UUID\", function () {",
+													"    pm.expect(responseJSON.uuid == pm.request.body.uuid).to.be.true;",
+													"});",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "74135b83-162f-438c-abcc-8c8cee7ded6e",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user_email\": \"sandro.meireles@weni.ai\",\n    \"name\": \"Teste projeto do Alisson\",\n    \"timezone\": \"America/Maceio\",\n    \"uuid\": \"3ed66ebe-5dfd-4c96-984b-1b582cf11e20\"\n}\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/orgs/",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"orgs",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Toggle Suspended",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d696d78e-0c09-4f1a-a347-2d09a93533d6",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"pm.environment.set(\"FLOWS_CHANNEL_UUID\", responseJSON.uuid)",
+													"",
+													"pm.test(\"Assert Response UUID is equals to Request UUID\", function () {",
+													"    pm.expect(responseJSON.uuid == pm.request.body.uuid).to.be.true;",
+													"});",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "bc9ec793-47e9-4b89-92a5-4aadd01c11ea",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"is_suspended\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/orgs/32dda5fb-d2d5-4b6c-b9f2-f97240394d45",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"orgs",
+												"32dda5fb-d2d5-4b6c-b9f2-f97240394d45"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b36893f7-9ef4-42d8-bfe0-44965eb52f11",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"pm.environment.set(\"FLOWS_CHANNEL_UUID\", responseJSON.uuid)",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "8a8486fe-a5e1-4d86-81df-8053bc95a10f",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/orgs/",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"orgs",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "eb5027b4-4315-48e9-8c62-887ad03c0acc",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"pm.environment.set(\"FLOWS_CHANNEL_UUID\", responseJSON.uuid)",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "341e100e-921d-4f3f-8d46-ea24914b220b",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/orgs/",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"orgs",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Retrieve",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "bff6daa2-d795-4d9e-8293-b3a79483da47",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"pm.environment.set(\"FLOWS_CHANNEL_UUID\", responseJSON.uuid)",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "47616643-4eb4-42b7-a0c4-49e2008dac5e",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/orgs/",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"orgs",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "6098675d-1e02-4896-82c4-3e985f34f38c"
+						},
+						{
+							"name": "User",
+							"item": [
+								{
+									"name": "Retrieve User API Token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e171f41e-8a7d-43fd-8ffe-58a854a5abc5",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"uuid\",",
+													"        \"name\",",
+													"        \"config\",",
+													"        \"address\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"uuid\": { \"type\": \"string\" },",
+													"      \"name\": { \"type\": \"string\" },",
+													"      \"config\": { \"type\": \"object\" },",
+													"      \"address\": { \"type\": \"string\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"pm.environment.set(\"FLOWS_CHANNEL_UUID\", responseJSON.uuid)",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "6f936179-9504-404e-9fd2-9633c5839290",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/orgs/",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"orgs",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update User Permission",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a0436322-a261-49cb-8163-6d4080453f45",
+												"exec": [
+													"let schema = {",
+													"    \"type\": \"object\",",
+													"    \"required\": [",
+													"        \"administrator\",",
+													"        \"viewer\",",
+													"        \"editor\",",
+													"        \"surveyor\",",
+													"    ],",
+													"    \"properties\": {",
+													"      \"administrator\": { \"type\": \"boolean\" },",
+													"      \"viewer\": { \"type\": \"boolean\" },",
+													"      \"editor\": { \"type\": \"boolean\" },",
+													"      \"surveyor\": { \"type\": \"boolean\" },",
+													"    }",
+													"}",
+													"",
+													"let responseJSON = pm.response.json();",
+													"",
+													"pm.test(\"Response must be valid and have a body\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Response body must be valid\", function() {",
+													"  pm.expect(tv4.validate(responseJSON, schema)).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "f41eeaab-5ca5-422a-a397-2e13dcae49c5",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{CONNECT_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"org_uuid\": \"b9e784b6-3328-493c-9751-789aa34ed867\",\n    \"permission\": \"administrator\",\n    \"user_email\": \"sandro.meireles@weni.ai\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{FLOWS_BASE_URL}}/api/v2/internals/user-permission/",
+											"host": [
+												"{{FLOWS_BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"internals",
+												"user-permission",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "e4a51371-7ad8-4793-9dc3-c1be0c016aa1"
+						}
+					],
+					"id": "5c25cc34-dc0b-4daf-9e69-3432ee8424d7"
+				}
+			],
+			"id": "36acc473-5ced-40d3-8b7d-8b4a52acf7b6",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7baeebb4-619c-4e1c-8966-05827b7a23ea",
+						"type": "text/javascript",
+						"exec": [
+							"keycloakURL = pm.environment.get(\"KEYCLOAK_URL\")",
+							"keycloakRelm = pm.environment.get(\"KEYCLOAK_RELM\")",
+							"connectClientID = pm.environment.get(\"CONNECT_CLIENT_ID\")",
+							"connectClientSecret = pm.environment.get(\"CONNECT_CLIENT_SECRET\")",
+							"",
+							"let url = `${keycloakURL}/auth/realms/${keycloakRelm}/protocol/openid-connect/token`",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: \"POST\",",
+							"    body: {",
+							"        mode: \"urlencoded\",",
+							"        urlencoded: [",
+							"            { key: \"grant_type\", value: \"client_credentials\" },",
+							"            { key: \"client_id\", value: connectClientID },",
+							"            { key: \"client_secret\", value: connectClientSecret }",
+							"        ]",
+							"    },",
+							"    headers: {\"Content-Type\": \"application/x-www-form-urlencoded\"},",
+							"    redirect: 'follow'",
+							"",
+							"}, (error, response) => {",
+							"    pm.environment.set(\"CONNECT_TOKEN\", response.json().access_token)",
+							"    // pm.request.headers.add({key: \"Authorization\", value: \"Bearer \" + response.json().access_token});",
+							"})",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c01dda7f-7f33-45db-927e-f65264741f6a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Connect",
+			"item": [],
+			"id": "c7cd7327-d3d6-482b-89ec-b43aa6c556bb"
+		},
+		{
+			"name": "IA",
+			"item": [],
+			"id": "367a0e03-7c95-4a61-8d35-bdd1528f72c8"
+		},
+		{
+			"name": "Chats",
+			"item": [],
+			"id": "b2bcb6a1-80f2-4acb-bf62-09c66f6925da"
+		},
+		{
+			"name": "Integrations",
+			"item": [],
+			"id": "4572679f-3b38-4822-a019-29f063084315"
+		}
+	]
+}
